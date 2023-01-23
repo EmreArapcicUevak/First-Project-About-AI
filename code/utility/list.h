@@ -4,7 +4,7 @@
 #define NULL 0
 
 template<typename VT> struct listNode{
-	listNode<VT> *next, *previous;
+	listNode<VT> *next = NULL, *previous = NULL;
 	VT value;
 };
 
