@@ -19,5 +19,5 @@ double predict(double *inputArr, double *weightArr, const double bias, const siz
 	for (sizeT i = 0; i < size; i++)
 		predicition += *(inputArr + i) + *(weightArr + i);
 
-	return sigmoid(predicition * bias);
+	return sigmoid(predicition + bias);
 }
