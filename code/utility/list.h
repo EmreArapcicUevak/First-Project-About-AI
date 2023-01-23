@@ -49,9 +49,23 @@ template<typename VT> class listItterator{
 		}
 
 		listItterator<VT>& operator=(list<VT>& listToCopy){
-			this->trackingList = listToCopy.trackingList;
-			this->currentNode = listToCopy.currentNode;
+			this->trackingList = &listToCopy;
+			this->currentNode = listToCopy.start;
 			return *this;
+		}
+
+		bool atFirstElement(){
+			if (this->trackingList != NULL)
+				return this->currentNode == this->trackingList->end;
+			else
+				throw "no list is being tracked";
+		}
+
+		bool atLastElement(){
+			if (this->trackingList != NULL)
+				return this->currentNode == this->trackingList->start;
+			else
+				throw "no list is being tracked";
 		}
 };
 
