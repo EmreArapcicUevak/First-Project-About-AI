@@ -42,7 +42,11 @@ template<typename VT> class listItterator{
 				this->currentNode = this->currentNode->previous;
 		}
 
-
+		listItterator<VT>& operator=(listItterator<VT>& listItteratorToCopy){
+			this->trackingList = listItteratorToCopy.trackingList;
+			this->currentNode = listItteratorToCopy.currentNode;
+			return *this;
+		}
 };
 
 
