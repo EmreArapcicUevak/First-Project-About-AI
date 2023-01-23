@@ -31,6 +31,18 @@ template<typename VT> class listItterator{
 			else
 				throw "Invalid itterator * operator, NODE IS NULL";
 		}
+
+		void operator++(){
+			if (this->trackingList != NULL && this->currentNode != NULL && this->currentNode != this->trackingList->end)
+				this->currentNode = this->currentNode->next;
+		}
+
+		void operator--(){
+			if (this->trackingList != NULL && this->currentNode != NULL && this->currentNode != this->trackingList->start)
+				this->currentNode = this->currentNode->previous;
+		}
+
+
 };
 
 
