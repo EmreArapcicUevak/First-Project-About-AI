@@ -76,6 +76,13 @@ template<typename VT> class list {
 		unsigned int size;
 	public:
 		friend listItterator<VT>;
+		list(VT* arr = NULL, const unsigned int size = 0){
+			start = end = NULL;
+			size = 0;
+
+			if (arr != NULL)
+				for (unsigned int i = 0; i < size; i++);
+		}
 };
 
 #endif
