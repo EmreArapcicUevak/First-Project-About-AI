@@ -130,7 +130,8 @@ template<typename VT> class list {
 			this->size = 0;
 
 			if (arr != NULL)
-				for (unsigned int i = 0; i < size; i++);
+				for (unsigned int i = 0; i < size; i++)
+					add(*(arr + i),this->size);
 		}
 };
 
