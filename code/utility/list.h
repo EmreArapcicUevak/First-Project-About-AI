@@ -125,6 +125,21 @@ template<typename VT> class list {
 			this->size++;
 		}
 
+		void remove(unsigned int index = 0){
+			if (index > this->size)
+				throw "Invalid index, index must be <= size";
+
+			listNode<VT> *selectedNode = getNode(index);
+
+			if (selectedNode->next != NULL)
+				selectedNode->next->previous = selectedNode->previous;
+
+			if (selectedNode->previous != NULL)
+				selectedNode->previous->next = selectedNode->next;
+
+			this->size--;
+		}
+
 		list(VT* arr = NULL, unsigned int size = 0){
 			start = end = NULL;
 			this->size = 0;
@@ -132,6 +147,11 @@ template<typename VT> class list {
 			if (arr != NULL)
 				for (unsigned int i = 0; i < size; i++)
 					add(*(arr + i),this->size);
+		}
+
+		~list(){
+			while(this->size > 0)
+				remove();
 		}
 };
 
