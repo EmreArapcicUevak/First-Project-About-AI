@@ -1,7 +1,10 @@
 #ifndef customList
 #define customList
 
+#ifndef NULL 
 #define NULL 0
+#endif
+
 
 template<typename VT> struct listNode{
 	listNode<VT> *next = NULL, *previous = NULL;
@@ -15,7 +18,7 @@ template<typename VT> class listItterator{
 		list<VT> *trackingList;
 		listNode<VT> *currentNode;
 
-		void changeTrackingList(list<VT> trackingList){
+		void changeTrackingList(list<VT>* trackingList){
 			this->trackingList = trackingList;
 			if (this->trackingList != NULL)
 				this->currentNode = this->trackingList->start;
@@ -23,7 +26,8 @@ template<typename VT> class listItterator{
 				this->currentNode = NULL;
 		}
 	public:
-		listItterator(list<VT> trackingList= NULL){changeTrackingList(trackingList);}
+		listItterator(list<VT>& trackingList){changeTrackingList(&trackingList);}
+		listItterator(list<VT>* trackingList = NULL){changeTrackingList(trackingList);}
 
 		VT& operator*(){
 			if (this->currentNode != NULL)
@@ -32,12 +36,12 @@ template<typename VT> class listItterator{
 				throw "Invalid itterator * operator, NODE IS NULL";
 		}
 
-		void operator++(){
+		void operator++(int){
 			if (this->trackingList != NULL && this->currentNode != NULL && this->currentNode != this->trackingList->end)
 				this->currentNode = this->currentNode->next;
 		}
 
-		void operator--(){
+		void operator--(int){
 			if (this->trackingList != NULL && this->currentNode != NULL && this->currentNode != this->trackingList->start)
 				this->currentNode = this->currentNode->previous;
 		}
@@ -56,14 +60,14 @@ template<typename VT> class listItterator{
 
 		bool atFirstElement(){
 			if (this->trackingList != NULL)
-				return this->currentNode == this->trackingList->end;
+				return this->currentNode == this->trackingList->start;
 			else
 				throw "no list is being tracked";
 		}
 
 		bool atLastElement(){
 			if (this->trackingList != NULL)
-				return this->currentNode == this->trackingList->start;
+				return this->currentNode == this->trackingList->end;
 			else
 				throw "no list is being tracked";
 		}
@@ -74,11 +78,56 @@ template<typename VT> class list {
 	protected:
 		listNode<VT> *start, *end;
 		unsigned int size;
+
+		listNode<VT> *getNode(unsigned int index){
+			listNode<VT> *returningNode = start;
+
+			for (unsigned int i = 0; i < index; i++, returningNode = returningNode->next);
+			return returningNode;
+		}
 	public:
 		friend listItterator<VT>;
-		list(VT* arr = NULL, const unsigned int size = 0){
+
+		void add(VT value, unsigned int index = 0){
+			if (index > this->size)
+				throw "Invalid Index, index can't be bigger then size";
+			else if (start == NULL){
+				end = start = new listNode<VT>;
+				start->value = value;
+			} else if (index == 0) {
+				listNode<VT> *oldStart = start;
+				start = new listNode<VT>;
+
+				oldStart->previous = start;
+				start->next = oldStart;
+
+				start->value = value;
+			} else if (index == size) {
+				listNode<VT> *oldEnd = end;
+				end = new listNode<VT>;
+
+				oldEnd->next = end;
+				end->previous = oldEnd;
+
+				end->value = value;
+			} else {
+				listNode<VT> *selectedNode = getNode(index), *newNode = new listNode<VT>;
+				newNode->value = value;
+
+				selectedNode->previous->next = newNode;
+				newNode->previous = selectedNode->previous;
+
+
+				newNode->next = selectedNode;
+				selectedNode->previous = newNode;
+			}
+
+			this->size++;
+		}
+
+		list(VT* arr = NULL, unsigned int size = 0){
 			start = end = NULL;
-			size = 0;
+			this->size = 0;
 
 			if (arr != NULL)
 				for (unsigned int i = 0; i < size; i++);
