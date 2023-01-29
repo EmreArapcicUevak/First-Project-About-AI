@@ -60,20 +60,6 @@ int main(){
 			weights.add(rand());
 
 
-	for (listItterator<double> r(result); !r.isOutside(); r++)
-		std::cout << *r << ' ';
-	std::cout << std::endl;
-
-	for (listItterator<list<double>> i(inputs); !i.isOutside(); i++){
-		for (listItterator<double> j(*i); !j.isOutside(); j++)
-			std::cout << *j << ' ';
-		std::cout << std::endl;
-	}
-
-
-	for (listItterator<double> r(weights); !r.isOutside(); r++)
-		std::cout << *r << ' ';
-
 	logFile.open("../../data/log.txt", std::ios::ate);
 
 	if (!logFile.is_open())
