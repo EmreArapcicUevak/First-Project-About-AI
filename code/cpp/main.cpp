@@ -7,7 +7,7 @@
 
 typedef unsigned int sizeT;
 
-double sigmoid(double x){return 1 / (1 + std::exp(x));}
+double sigmoid(double x){return 1 / (1 + std::exp(-x));}
 double predict(list<double> *, list<double> *, const double); // Used for predicting the output
 double getRand(){return double(std::rand()) / RAND_MAX;} // Returns a value between 0-1
 void train(list<double> &,list<double>&,list<list<double>>&, double &, unsigned int, double, std::fstream&);
@@ -18,7 +18,7 @@ int main(){
 	std::fstream dataToRead, logFile, savedWeights;
 	list<list<double>> inputs;
 	list<double> result, weights;
-	double bias;
+	double bias = getRand();
 
 	dataToRead.open("../../data/data.txt", std::ios::in);
 	if (!dataToRead.is_open())
@@ -57,7 +57,7 @@ int main(){
 		savedWeights.close();
 	}else
 		for (unsigned int i = 0; i < 2; i++)
-			weights.add(rand());
+			weights.add(getRand());
 
 
 	logFile.open("../../data/log.txt", std::ios::ate);
@@ -102,9 +102,11 @@ void train(list<double> & weights, list<double>& results, list<list<double>>& in
 		for (unsigned int j = 0; j < epoch; j++) {
 			double pred = sigmoid(weights[0] * (*inputIt)[0] + weights[1] * (*inputIt)[1] + bias);
 			double error = pred - *r;
-			error *= error;
+			error = error * error;
 
-			Ostream << error << '\n';
+			if (error == 0)
+				break;
+			Ostream << "Error: " << error << "  <-  wanted results: "  << *r << "  ||  inputs:  "<<  (*inputIt)[0] << ' ' << (*inputIt)[1] << "  ||  weights: " << weights[0]  << ' ' << weights[1] << "  ||  prediction:" << pred  <<'\n';
 			weights[0] += 2*(pred - *r) * pred * (1 - pred) * (*inputIt)[0] * step;
 			weights[1] += 2*(pred - *r) * pred * (1 - pred) * (*inputIt)[1] * step;
 			bias += 2*(pred - *r) * pred * (1 - pred) * step; 
