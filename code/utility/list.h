@@ -155,6 +155,16 @@ template<typename VT> class list {
 		}
 
 		unsigned int getSize() { return this->size;}
+
+		list<VT>& operator=(list<VT>& listToCopy){
+			while(this->size > 0)
+				remove();
+			
+			for (listItterator<VT> i(listToCopy); i != NULL; i++)
+				add(*i, this->size);
+
+			return *this;
+		}
 };
 
 #endif
