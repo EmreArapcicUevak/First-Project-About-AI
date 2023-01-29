@@ -153,6 +153,8 @@ template<typename VT> class list {
 			while(this->size > 0)
 				remove();
 		}
+
+		unsigned int getSize() { return this->size;}
 };
 
 #endif
