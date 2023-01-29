@@ -37,12 +37,12 @@ template<typename VT> class listItterator{
 		}
 
 		void operator++(int){
-			if (this->trackingList != NULL && this->currentNode != NULL && this->currentNode != this->trackingList->end)
+			if (this->trackingList != NULL && this->currentNode != NULL)
 				this->currentNode = this->currentNode->next;
 		}
 
 		void operator--(int){
-			if (this->trackingList != NULL && this->currentNode != NULL && this->currentNode != this->trackingList->start)
+			if (this->trackingList != NULL && this->currentNode != NULL)
 				this->currentNode = this->currentNode->previous;
 		}
 
@@ -70,6 +70,16 @@ template<typename VT> class listItterator{
 				return this->currentNode == this->trackingList->end;
 			else
 				throw "no list is being tracked";
+		}
+
+		void putAtStart() {
+			if (this->trackingList != NULL)
+				this->currentNode = this->trackingList->start;
+		}
+
+		void putAtEnd() {
+			if (this->trackingList != NULL)
+				this->currentNode = this->trackingList->end;
 		}
 };
 
