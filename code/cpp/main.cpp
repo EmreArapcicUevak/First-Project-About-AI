@@ -14,10 +14,47 @@ double getRand(){return double(std::rand()) / RAND_MAX;} // Returns a value betw
 int main(){
 	std::srand(std::time(NULL));
 	std::fstream dataToRead, logFile, finalWeights;
-	list<double> inputs, weights;
+	list<list<double>> inputs;
+	list<double> result, weights;
 	double bias;
 
+	dataToRead.open("../../data/data.txt", std::ios::in);
+	if (!dataToRead.is_open())
+		return -1;
 
+	while (!dataToRead.eof()){
+		if (dataToRead.peek() == '#')
+			dataToRead.ignore(200, '\n');
+		else {
+			list<double> input;
+			double i;
+
+			for (unsigned int j = 0; j < 2; j++){
+				dataToRead >> i;
+				input.add(i, input.getSize());
+			}
+
+			dataToRead >> i;
+			result.add(i, result.getSize());
+			inputs.add(input, inputs.getSize());
+
+		}
+	}
+	dataToRead.close();
+
+
+	for (listItterator<double> r(result); !r.isOutside(); r++)
+		std::cout << *r << ' ';
+	std::cout << std::endl;
+
+	for (listItterator<list<double>> i(inputs); !i.isOutside(); i++){
+		for (listItterator<double> j(*i); !j.isOutside(); j++)
+			std::cout << *j << ' ';
+		std::cout << std::endl;
+	}
+
+
+	std::cin >> bias;
 	return 0;
 }
 
