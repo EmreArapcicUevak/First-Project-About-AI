@@ -83,7 +83,7 @@ template<typename VT> class listItterator{
 		}
 
 		bool isOutside() {
-			if (this-trackingList != NULL)
+			if (this->trackingList != NULL)
 				return this->currentNode == NULL;
 			else
 				throw "Itterator isn't tracking any list, can not be outside!";
@@ -177,7 +177,7 @@ template<typename VT> class list {
 			while(this->size > 0)
 				remove();
 			
-			for (listItterator<VT> i(listToCopy); i != NULL; i++)
+			for (listItterator<VT> i(listToCopy); !i.isOutside(); i++)
 				add(*i, this->size);
 
 			return *this;
