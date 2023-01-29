@@ -18,7 +18,7 @@ int main(){
 	std::fstream dataToRead, logFile, savedWeights;
 	list<list<double>> inputs;
 	list<double> result, weights;
-	double bias = getRand();
+	double bias; 
 
 	dataToRead.open("../../data/data.txt", std::ios::in);
 	if (!dataToRead.is_open())
@@ -53,12 +53,15 @@ int main(){
 			weights.add(weight, weights.getSize());
 		}
 
+		savedWeights >> weight;
+		bias = weight;
 
 		savedWeights.close();
-	}else
+	}else{
 		for (unsigned int i = 0; i < 2; i++)
 			weights.add(getRand());
-
+		bias = getRand();
+	}
 
 	logFile.open("../../data/log.txt", std::ios::ate);
 
@@ -66,18 +69,18 @@ int main(){
 		logFile.open("../../data/log.txt", std::ios::out);
 		
 
-	train(weights, result, inputs, bias, 1000, .001, logFile);
+	train(weights, result, inputs, bias, 900000, .001, logFile);
 
 	savedWeights.open("../../data/savedWeights.txt", std::ios::out  | std::ios::trunc);
 	for (listItterator<double> w(weights); !w.isOutside(); w++)
 		savedWeights << *w << ' '; 
+	savedWeights << bias;
 	savedWeights.close();
 
 	
 
 
 	logFile.close();
-	std::cin >> bias;
 	return 0;
 }
 
@@ -106,7 +109,8 @@ void train(list<double> & weights, list<double>& results, list<list<double>>& in
 
 			if (error == 0)
 				break;
-			Ostream << "Error: " << error << "  <-  wanted results: "  << *r << "  ||  inputs:  "<<  (*inputIt)[0] << ' ' << (*inputIt)[1] << "  ||  weights: " << weights[0]  << ' ' << weights[1] << "  ||  prediction:" << pred  <<'\n';
+
+			Ostream << error << '\n'; 
 			weights[0] += 2*(pred - *r) * pred * (1 - pred) * (*inputIt)[0] * step;
 			weights[1] += 2*(pred - *r) * pred * (1 - pred) * (*inputIt)[1] * step;
 			bias += 2*(pred - *r) * pred * (1 - pred) * step; 
