@@ -81,6 +81,13 @@ template<typename VT> class listItterator{
 			if (this->trackingList != NULL)
 				this->currentNode = this->trackingList->end;
 		}
+
+		bool isOutside() {
+			if (this-trackingList != NULL)
+				return this->currentNode == NULL;
+			else
+				throw "Itterator isn't tracking any list, can not be outside!";
+		}
 };
 
 
