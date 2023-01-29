@@ -69,7 +69,7 @@ int main(){
 		logFile.open("../../data/log.txt", std::ios::out);
 		
 
-	train(weights, result, inputs, bias, 900000, .001, logFile);
+	train(weights, result, inputs, bias, 90000, .01, logFile);
 
 	savedWeights.open("../../data/savedWeights.txt", std::ios::out  | std::ios::trunc);
 	for (listItterator<double> w(weights); !w.isOutside(); w++)
