@@ -182,6 +182,13 @@ template<typename VT> class list {
 
 			return *this;
 		}
+
+		VT& operator[](unsigned int index){
+			if (index >= this->size)
+				throw "Invalid index, can't grab the value (operator [])";
+				
+			return getNode(index)->value; 
+		}
 };
 
 #endif
