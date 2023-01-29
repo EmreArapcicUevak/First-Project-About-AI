@@ -13,7 +13,8 @@ double getRand(){return double(std::rand()) / RAND_MAX;} // Returns a value betw
 
 int main(){
 	std::srand(std::time(NULL));
-	std::fstream dataToRead, logFile, finalWeights;
+
+	std::fstream dataToRead, logFile, savedWeights;
 	list<list<double>> inputs;
 	list<double> result, weights;
 	double bias;
@@ -41,6 +42,21 @@ int main(){
 		}
 	}
 	dataToRead.close();
+	
+	savedWeights.open("../../data/savedWeights.txt", std::ios::in);
+
+	if (savedWeights.is_open()){
+		double weight;
+		for (unsigned int i = 0; i <  2; i++){
+			savedWeights >> weight;
+			weights.add(weight, weights.getSize());
+		}
+
+
+		savedWeights.close();
+	}else
+		for (unsigned int i = 0; i < 2; i++)
+			weights.add(rand());
 
 
 	for (listItterator<double> r(result); !r.isOutside(); r++)
@@ -53,6 +69,14 @@ int main(){
 		std::cout << std::endl;
 	}
 
+
+	for (listItterator<double> r(weights); !r.isOutside(); r++)
+		std::cout << *r << ' ';
+
+	savedWeights.open("../../data/savedWeights.txt", std::ios::out  | std::ios::trunc);
+	for (listItterator<double> w(weights); !w.isOutside(); w++)
+		savedWeights << *w << ' '; 
+	savedWeights.close();
 
 	std::cin >> bias;
 	return 0;
