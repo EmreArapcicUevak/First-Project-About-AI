@@ -69,7 +69,7 @@ int main(){
 		logFile.open("../../data/log.txt", std::ios::out);
 		
 
-	train(weights, result, inputs, bias, 90000, .01, logFile);
+	train(weights, result, inputs, bias, 19999, .01, logFile);
 
 	savedWeights.open("../../data/savedWeights.txt", std::ios::out  | std::ios::trunc);
 	for (listItterator<double> w(weights); !w.isOutside(); w++)
@@ -96,24 +96,23 @@ double predict(list<double> *inputList, list<double> *weightList, const double b
 }
 
 void train(list<double> & weights, list<double>& results, list<list<double>>& inputs,double &bias ,unsigned int epoch, double step, std::fstream& Ostream){
-	listItterator<list<double>> inputIt(inputs);
 	listItterator<double> r(results);
 
 	step = step < 0 ? step : -step;
 
-	for (unsigned int i = 0; i < inputs.getSize(); i++, inputIt++, r++){
-		for (unsigned int j = 0; j < epoch; j++) {
+	for (unsigned int j = 0; j < epoch; j++) {
+		double error = 0;
+		for (listItterator<list<double>> inputIt(inputs); !inputIt.isOutside(); inputIt++, r++){
 			double pred = sigmoid(weights[0] * (*inputIt)[0] + weights[1] * (*inputIt)[1] + bias);
-			double error = pred - *r;
-			error = error * error;
+			error += (pred - *r)*(pred - *r);
 
-			if (error == 0)
-				break;
-
-			Ostream << error << '\n'; 
-			weights[0] += 2*(pred - *r) * pred * (1 - pred) * (*inputIt)[0] * step;
-			weights[1] += 2*(pred - *r) * pred * (1 - pred) * (*inputIt)[1] * step;
+			for (unsigned int i = 0; i < weights.getSize(); i++)
+				weights[i] += 2*(pred - *r) * pred * (1 - pred) * (*inputIt)[i] * step;
 			bias += 2*(pred - *r) * pred * (1 - pred) * step; 
 		}
+
+
+		Ostream << error / inputs.getSize() << '\n';
+		r.putAtStart();
 	}
 }
