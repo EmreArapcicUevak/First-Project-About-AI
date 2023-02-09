@@ -18,6 +18,17 @@ the given flower be.
 
 The data file for this problem can be found [here](https://github.com/EmreArapcicUevak/First-Project-About-AI/blob/readMe/data/data.txt).
 
+| length | width | color |
+|:------:|:-----:|:-----:|
+|    3   |  1.5  |  red  |
+|    2   |   1   |  blue |
+|    4   |  1.5  |  red  |
+|    3   |   1   |  blue |
+|   3.5  |  0.5  |  red  |
+|    2   |  0.5  |  blue |
+|   5.5  |   1   |  red  |
+|    1   |   1   |  blue |
+
 ### Note from me
 
 Since I am a first year computer science student (while writing this) I wanted to dip my feet in the field of AI and ML that I found very interesting.
