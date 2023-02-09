@@ -65,7 +65,7 @@ start main.exe
 
 For apple users you will have to execute the following line of code
 ```bash
-.\main.exe
+./main.exe
 ```
 
 ##### Step 4
