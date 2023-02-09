@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <bits/stdc++.h>
+#include <cmath>
 #include <cstdlib>
 
 #include "../utility/list.h"
@@ -10,13 +10,13 @@ typedef unsigned int sizeT;
 double sigmoid(double x){return 1 / (1 + std::exp(-x));}
 double predict(list<double> *, list<double> *, const double); // Used for predicting the output
 double getRand(){return double(std::rand()) / RAND_MAX;} // Returns a value between 0-1
-void train(list<double> &,list<double>&,list<list<double>>&, double &, unsigned int, double, std::fstream&);
+void train(list<double> &,list<double>&,list<list<double> >&, double &, unsigned int, double, std::fstream&);
 
 int main(){
 	std::srand(std::time(NULL));
 
 	std::fstream dataToRead, logFile, savedWeights;
-	list<list<double>> inputs;
+	list<list<double> > inputs;
 	list<double> result, weights;
 	double bias; 
 
@@ -69,7 +69,7 @@ int main(){
 		logFile.open("../../data/log.txt", std::ios::out);
 		
 
-	train(weights, result, inputs, bias, 900000, .001, logFile);
+	train(weights, result, inputs, bias, 19999, .01, logFile);
 
 	savedWeights.open("../../data/savedWeights.txt", std::ios::out  | std::ios::trunc);
 	for (listItterator<double> w(weights); !w.isOutside(); w++)
@@ -95,25 +95,24 @@ double predict(list<double> *inputList, list<double> *weightList, const double b
 	return sigmoid(predicition + bias);
 }
 
-void train(list<double> & weights, list<double>& results, list<list<double>>& inputs,double &bias ,unsigned int epoch, double step, std::fstream& Ostream){
-	listItterator<list<double>> inputIt(inputs);
+void train(list<double> & weights, list<double>& results, list<list<double> >& inputs,double &bias ,unsigned int epoch, double step, std::fstream& Ostream){
 	listItterator<double> r(results);
 
 	step = step < 0 ? step : -step;
 
-	for (unsigned int i = 0; i < inputs.getSize(); i++, inputIt++, r++){
-		for (unsigned int j = 0; j < epoch; j++) {
+	for (unsigned int j = 0; j < epoch; j++) {
+		double error = 0;
+		for (listItterator<list<double> > inputIt(inputs); !inputIt.isOutside(); inputIt++, r++){
 			double pred = sigmoid(weights[0] * (*inputIt)[0] + weights[1] * (*inputIt)[1] + bias);
-			double error = pred - *r;
-			error = error * error;
+			error += (pred - *r)*(pred - *r);
 
-			if (error == 0)
-				break;
-
-			Ostream << error << '\n'; 
-			weights[0] += 2*(pred - *r) * pred * (1 - pred) * (*inputIt)[0] * step;
-			weights[1] += 2*(pred - *r) * pred * (1 - pred) * (*inputIt)[1] * step;
+			for (unsigned int i = 0; i < weights.getSize(); i++)
+				weights[i] += 2*(pred - *r) * pred * (1 - pred) * (*inputIt)[i] * step;
 			bias += 2*(pred - *r) * pred * (1 - pred) * step; 
 		}
+
+
+		Ostream << error / inputs.getSize() << '\n';
+		r.putAtStart();
 	}
 }
