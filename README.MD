@@ -10,7 +10,7 @@ This will be my repo where I will post my experience about learning *Artificial 
 
 #### Problem
 
-The idea for this problem was taken from the channel [https://www.youtube.com/@giantneuralnetwork](giant_neural_network), please check them out for more information :)
+The idea for this problem was taken from the channel [giant_neural_network](https://www.youtube.com/@giantneuralnetwork), please check them out for more information :)
 
 ### Note from me
 
