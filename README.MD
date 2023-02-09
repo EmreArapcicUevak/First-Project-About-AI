@@ -29,6 +29,55 @@ The data file for this problem can be found [here](https://github.com/EmreArapci
 |   5.5  |   1   |  red  |
 |    1   |   1   |  blue |
 
+*Plots to be added!*
+
+#### How to test this repo's code
+
+The solution for the given problem was written in *C++* meaning that you will need a compiler to compile the C++ code. Once you get a C++ compiler, compiler [./code/cpp/main.cpp](https://github.com/EmreArapcicUevak/First-Project-About-AI/tree/readMe/code/cpp).
+
+##### Step 1
+
+Clone the repository and move into the repository.
+
+```bash
+git clone https://github.com/EmreArapcicUevak/First-Project-About-AI.git
+cd First-Project-About-AI
+```
+
+##### Step 2
+
+Go into the folder containing the cpp file and compile the cpp file
+
+```bash
+cd code/cpp
+g++ main.cpp -o main.exe
+```
+
+##### Step 3
+
+Run the .exe file
+
+For windows you can either use the file explorer and double click the exe, or execture the following commands
+
+```bash
+start main.exe
+```
+
+For apple users you will have to execute the following line of code
+```bash
+.\main.exe
+```
+
+##### Step 4
+
+After you execture Step 3 just wait for the program to finish running and you are all set :)
+
+In the [data](https://github.com/EmreArapcicUevak/First-Project-About-AI/tree/main/data) folder there should be a savedWeights and a log file.
+
+The log file has all the errors and is used for plotting the error plot which we will see how to do right after this.
+
+The saved weights contains all the weights and the bias at the end for the neural network.
+ 
 ### Note from me
 
 Since I am a first year computer science student (while writing this) I wanted to dip my feet in the field of AI and ML that I found very interesting.
