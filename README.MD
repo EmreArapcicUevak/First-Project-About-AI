@@ -12,6 +12,12 @@ This will be my repo where I will post my experience about learning *Artificial 
 
 The idea for this problem was taken from the channel [giant_neural_network](https://www.youtube.com/@giantneuralnetwork), please check them out for more information :)
 
+There was a farmer who liked to measure the length and the width of her flowers; she really liked plotting the lenght and the width of the measured flowers and their color as well!
+However one day she noticed that one of her measurements she had an flower that had no color assigned to it :(; Our task it to help her figure out or at least try to predict what color should
+the given flower be.
+
+The data file for this problem can be found [here](https://github.com/EmreArapcicUevak/First-Project-About-AI/blob/readMe/data/data.txt).
+
 ### Note from me
 
 Since I am a first year computer science student (while writing this) I wanted to dip my feet in the field of AI and ML that I found very interesting.
