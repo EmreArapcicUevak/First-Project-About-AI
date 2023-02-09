@@ -78,6 +78,12 @@ The log file has all the errors and is used for plotting the error plot which we
 
 The saved weights contains all the weights and the bias at the end for the neural network.
  
+### Plotting the error
+
+As of right now I only have the matlab / octave code which is used for plotting the given error. All that u have to do is run the [plotError.m](https://github.com/EmreArapcicUevak/First-Project-About-AI/tree/main/code/OctaveMatlab) file and a figure should appear.
+
+I will try to make a python script some time soon as well that would also display the needed figures
+
 ### Note from me
 
 Since I am a first year computer science student (while writing this) I wanted to dip my feet in the field of AI and ML that I found very interesting.
