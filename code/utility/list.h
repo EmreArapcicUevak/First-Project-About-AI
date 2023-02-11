@@ -148,12 +148,19 @@ template<typename VT> class list {
 
 			listNode<VT> *selectedNode = getNode(index);
 
+			if (selectedNode == this->start)
+				this->start = selectedNode->next;
+
+			if (selectedNode == this->end)
+				this->end = selectedNode->previous;
+
 			if (selectedNode->next != NULL)
 				selectedNode->next->previous = selectedNode->previous;
 
 			if (selectedNode->previous != NULL)
 				selectedNode->previous->next = selectedNode->next;
 
+			delete selectedNode;
 			this->size--;
 		}
 
@@ -166,6 +173,14 @@ template<typename VT> class list {
 					add(*(arr + i),this->size);
 		}
 
+		list(list<VT>& listToCopy){
+			start = end = NULL;
+			this->size = 0;
+		
+			for (listItterator<VT> i(listToCopy); !i.isOutside(); i++)
+				add(*i, this->size);
+		}
+
 		~list(){
 			while(this->size > 0)
 				remove();
@@ -174,9 +189,10 @@ template<typename VT> class list {
 		unsigned int getSize() { return this->size;}
 
 		list<VT>& operator=(list<VT>& listToCopy){
+
 			while(this->size > 0)
 				remove();
-			
+
 			for (listItterator<VT> i(listToCopy); !i.isOutside(); i++)
 				add(*i, this->size);
 
