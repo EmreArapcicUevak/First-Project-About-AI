@@ -10,6 +10,7 @@ typedef unsigned int sizeT;
 double sigmoid(double x){return 1 / (1 + std::exp(-x));}
 double predict(list<double> *, list<double> *, const double); // Used for predicting the output
 double getRand(){return double(std::rand()) / RAND_MAX;} // Returns a value between 0-1
+void printProgressBar(unsigned int);
 void train(list<double> &,list<double>&,list<list<double> >&, double &, unsigned int, double, std::fstream&);
 
 int main(){
@@ -69,7 +70,7 @@ int main(){
 		logFile.open("../../data/log.txt", std::ios::out);
 		
 try{
-	train(weights, result, inputs, bias, 9999, .01, logFile);
+	train(weights, result, inputs, bias, 999, .01, logFile);
 }catch(char const *e){
 	std::cout << e; 
 }
@@ -98,11 +99,31 @@ double predict(list<double> *inputList, list<double> *weightList, const double b
 	return sigmoid(predicition + bias);
 }
 
+void printProgressBar(unsigned int percentage){
+	static unsigned int previousProgress = 0,numberOfChars = 10;
+	static bool newBar = true;
+	static unsigned int npp = 100/numberOfChars;
+	if (previousProgress == percentage && !newBar)
+		return;
+
+	newBar = false;
+	std::cout << ' ' << '\r' << '[';
+	for (unsigned int i = 1; i <= numberOfChars ; i++)
+		if (percentage >= npp*i) 
+			std::cout << '*';
+		else 
+			std::cout << ' ';
+	std::cout << ']' << percentage << '%' << std::endl;
+	previousProgress = percentage;
+
+	if (percentage == 100)
+		newBar = true;
+}
 void train(list<double> & weights, list<double>& results, list<list<double> >& inputs,double &bias ,unsigned int epoch, double step, std::fstream& Ostream){
 	listItterator<double> r(results);
 
 	step = step < 0 ? step : -step;
-
+	printProgressBar(0);
 	for (unsigned int j = 0; j < epoch; j++) {
 		double error = 0;
 		double tempBias = bias;
@@ -117,7 +138,7 @@ void train(list<double> & weights, list<double>& results, list<list<double> >& i
 			tempBias += 2*(pred - *r) * pred * (1 - pred) * step; 
 		}
 
-		//std::cout << double(j+1)/epoch * 100 << "% done\n";
+		printProgressBar(double(j+1)/epoch * 100);
 		Ostream << error / inputs.getSize() << '\n';
 		weights = tempWeights;
 		bias = tempBias;
